@@ -10,7 +10,7 @@ const NewsContent = () => {
     return (
         <div className='bg-gray-50 min-h-screen p-6'>
             <div className="flex items-center gap-4 mb-6">
-                <select name="status" className='w-48 px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-400'>
+                <select name="status" className='w-48 px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-400 shadow-none focus:shadow-none appearance-none'>
                     <option value="">--- Select Status ---</option>
                     <option value="pending">Pending</option>
                     <option value="active">Active</option>
