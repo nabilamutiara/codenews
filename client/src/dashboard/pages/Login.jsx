@@ -1,16 +1,18 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {base_url} from '../../config/config';
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import storeContext from '../../context/storeContext';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const navigate = useNavigate();
     const [loader, setLoader] = useState(false);
+    const {dispatch} = useContext(storeContext);
     const [state, setState] = useState({
         email : "",
         password : ''
     })
-
-    console.log(state);
 
     const inputHandle = (e) => {
         setState({
@@ -27,8 +29,16 @@ const Login = () => {
             //console.log(data);
             localStorage.setItem('newsToken',data.token)
             toast.success(data.message)
+            dispatch({
+                type: "login_success",
+                payload: {
+                    token: data.token
+                }
+            })
+            navigate('/dashboard')
         } catch (error) {
-            console.log(error);
+            setLoader(false)
+            toast.error(error.response.data.message)
         }
     }
 

@@ -1,17 +1,26 @@
 import React from 'react';
-import { Link, useLocation} from 'react-router-dom';
+import { Link, useLocation, useNavigate} from 'react-router-dom';
 import { MdDashboard} from "react-icons/md";
 import { BiNews } from "react-icons/bi";
 import { PiUsersFill } from "react-icons/pi";
 import { FaHouseUser } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
+import {useContext} from 'react';
+import storeContext from '../../context/storeContext';
+import { IoShareOutline } from 'react-icons/io5';
 
 const Sidebar = () => {
     const {pathname} = useLocation();
     //console.log(pathname);
-    const userInfo = {
-        role: "writer"
+    const {store, dispatch} = useContext(storeContext)
+    const navigate = useNavigate()
+
+    const logout = () => {
+        localStorage.removeItem('newsToken')
+        dispatch({type : 'logout', payload:''})
+        navigate('/login')
     }
+
     return (
         <div className='w-[250px] h-screen fixed left-0 top-0 bg-[#dadaff]'>
             <div className="h-[70px] flex justify-center items-center">
@@ -22,7 +31,7 @@ const Sidebar = () => {
             </div>
             <ul className='px-3 flex flex-col gap-y-1 font-medium'>
                 {
-                    userInfo.role === 'admin' ? <>
+                    store.userInfo.role === 'admin' ? <>
                     <li>
                         <Link to='/dashboard/admin' className={`px-3 ${pathname === '/dashboard/admin' ? 'bg-indigo-500 text-white' : 'bg-white text-[#404040f6]'} py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-lg flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white`}>
                             <span className='text-[18px]'><MdDashboard/></span>
@@ -72,6 +81,13 @@ const Sidebar = () => {
                     <span className='text-[18px]'><FaHouseUser/></span>
                     <span className='text-[18px]'>Profile</span>
                     </Link>
+                </li>
+
+                <li>
+                    <div  onClick={logout} className={`px-3 bg-white text-[#404040f6] py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-lg flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white`}>
+                    <span className='text-[18px]'><IoShareOutline/></span>
+                    <span className='text-[18px]'>Logout</span>
+                    </div>
                 </li>
             </ul>
         </div>

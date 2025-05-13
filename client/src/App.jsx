@@ -11,11 +11,14 @@ import AddWriter from './dashboard/pages/AddWriter';
 import Writers from './dashboard/pages/Writers';
 import WriterIndex from './dashboard/pages/WriterIndex';
 import CreateNews from './dashboard/pages/CreateNews';
+import React, {useContext} from 'react';
+import storeContext from './context/storeContext';
+import EditWriter from './dashboard/pages/EditWriter';
 
 function App() {
-  const userInfo = {
-    role: "writer"
-  }
+
+  const {store} = useContext(storeContext)
+
   return (
     <BrowserRouter>
       <Routes>
@@ -25,7 +28,7 @@ function App() {
         
         <Route path="/dashboard" element={<ProtectDashboard />}>
           <Route path="" element={<MainLayout />}>
-            <Route path="" index element={userInfo.role === 'admin' ? <Navigate to='/dashboard/admin'/> : <Navigate to='/dashboard/writer'/>} />
+            <Route path="" index element={store.userInfo.role === 'admin' ? <Navigate to='/dashboard/admin'/> : <Navigate to='/dashboard/writer'/>} />
             <Route path="unable-access" element={<Unable />} />
             <Route path="profile" element={<Profile />} />
             <Route path="news" element={<News />} />
@@ -33,6 +36,7 @@ function App() {
               <Route path="admin" element={<Adminindex />} />
               <Route path="writer/add" element={<AddWriter />} />
               <Route path="writers" element={<Writers />} />
+              <Route path="writer/edit/:id" element={<EditWriter />} />
             </Route>
             <Route path='' element={<ProtectRole role='writer'/>}>
               <Route path="writer" element={<WriterIndex />} />

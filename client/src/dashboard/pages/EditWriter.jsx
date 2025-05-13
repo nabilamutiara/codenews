@@ -1,27 +1,55 @@
-import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import {base_url} from '../../config/config';
 import axios from 'axios'
-import toast from 'react-hot-toast'
 import storeContext from '../../context/storeContext';
-import { useNavigate } from 'react-router-dom';
-import {useContext} from 'react';
+import toast from 'react-hot-toast';
 
-const AddWriter = () => {
-    const [loader, setLoader] = useState(false);
-
-    const navigate = useNavigate()
-
+const EditWriter = () => {
+    const {id} = useParams()
     const {store} = useContext(storeContext)
-
+    const [loader, setLoader] = useState(false);
+    const navigate = useNavigate()
     const [state, setState] = useState({
         name : "",
         email : "",
-        password: "",
-        category : ""
+        category : "",
+        role: ""
     })
 
-    console.log(state)
+    //console.log(state)
+
+    const getWriterData = async() => {
+       
+        try {
+            
+            const {data} = 
+            await axios.get(`${base_url}/api/news/writer/${id}`, 
+             {
+                headers: {
+                    'Authorization' : `Bearer ${store.token}`
+                }
+            }
+            )
+            
+            setState(
+                {
+                    name : data.writer.name,
+                    email : data.writer.email,
+                    category : data.writer.category,
+                    role: data.writer.role,
+                }
+            )
+            
+        } catch (error) {
+            toast.error('Failed to load writer data')
+        }
+    }
+
+    useEffect(() => {
+        getWriterData();
+    },[id]);
+
 
     const inputHandle = (e) => {
         setState({
@@ -30,11 +58,11 @@ const AddWriter = () => {
         })
     }
 
-    const submit = async(e) => {
+    const handleUpdateWriter = async(e) => {
         e.preventDefault()
         try {
             setLoader(true)
-            const {data} = await axios.post(`${base_url}/api/writer/add`, 
+            await axios.put(`${base_url}/api/update/writer/${id}`, 
             state, {
                 headers: {
                     'Authorization' : `Bearer ${store.token}`
@@ -43,8 +71,7 @@ const AddWriter = () => {
             )
             
             setLoader(false)
-            
-            toast.success(data.message)
+            toast.success('Writer update successfully')
             navigate('/dashboard/writers')
            
         } catch (error) {
@@ -56,13 +83,13 @@ const AddWriter = () => {
     return (
         <div className='bg-white rounded-md'>
             <div className='flex justify-between p-4'>
-                <h2 className='text-xl font-semibold'>Add Writers</h2>
+                <h2 className='text-xl font-semibold'>Edit Writers</h2>
                 <Link className='px-3 py-[6px] bg-blue-500 rounded-md text-white hover:bg-blue-800' to='/dashboard/writers'>
                     Writers
                 </Link>
             </div>
             <div className='p-4'>
-                <form onSubmit={submit}>
+                <form onSubmit={handleUpdateWriter}>
                     <div className='grid grid-cols-2 gap-x-8 mb-3'>
                         <div className='flex flex-col gap-y-2' >
                             <label htmlFor="name" className='text-md font-semibold text-gray-600'>Name</label>
@@ -88,13 +115,13 @@ const AddWriter = () => {
                         </div>
 
                         <div className='flex flex-col gap-y-2'>
-                            <label htmlFor="password" className='text-md font-semibold text-gray-600'>Password</label>
-                            <input onChange={inputHandle} value ={state.password} required type="password" placeholder='Password' name='password' className='px-3 py-2 rounded-md outline-1 outline-gray-300 border-gray-300 focus:border-blue-500 h-10' id='password'/>
+                            <label htmlFor="role" className='text-md font-semibold text-gray-600'>Role</label>
+                            <input onChange={inputHandle} value ={state.role} required type="text" placeholder='Role' name='role' className='px-3 py-2 rounded-md outline-1 outline-gray-300 border-gray-300 focus:border-blue-500 h-10' id='role'/>
                         </div>
                     </div>
                     <div className='mt-4'>
                         <button disabled={loader} className='px-3 py-[6px] bg-blue-500 rounded-md text-white hover:bg-blue-800'>
-                            {loader ? 'Loading...' : 'Add Writer'}
+                            {loader ? 'Loading...' : 'Update Writer'}
                         </button>
                     </div>
                 </form>
@@ -103,4 +130,4 @@ const AddWriter = () => {
     );
 };
 
-export default AddWriter;
+export default EditWriter;

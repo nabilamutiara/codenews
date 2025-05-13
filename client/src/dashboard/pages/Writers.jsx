@@ -1,11 +1,60 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import profile from '../../assets/profile.png';
 import { FaEye } from 'react-icons/fa';
 import { FaEdit } from 'react-icons/fa';
 import { FaTrashAlt } from 'react-icons/fa';
+import {base_url} from '../../config/config';
+import axios from 'axios'
+import toast from 'react-hot-toast'
+import storeContext from '../../context/storeContext';
+import { useNavigate } from 'react-router-dom';
+import {useContext} from 'react';
 
 const Writers = () => {
+    const {store} = useContext(storeContext)
+    const [writers, setWriters] = useState([])
+    const [loading, setLoading] = useState(false);
+    const get_writers = async () => {
+        try {
+            const {data} = await axios.get(`${base_url}/api/news/writers`, 
+                 {
+                    headers: {
+                        'Authorization' : `Bearer ${store.token}`
+                    }
+                }
+            )
+            setWriters(data.writers)
+            //console.log(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        get_writers()
+    }, [])
+
+    const handleDeleteWriter = async (id) => {
+        if (!window.confirm('Are you sure to delete writer?'))
+            return;
+        setLoading(true);
+        try {
+            const {data} = await axios.delete(`${base_url}/api/delete/writer/${id}`, 
+                {
+                   headers: {
+                       'Authorization' : `Bearer ${store.token}`
+                   }
+               }
+           )
+           toast.success('Writer Deleted Successfully');
+           get_writers();
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+
+
     return (
         <div className='bg-white rounded-lg shadow-md'>
             <div className='flex justify-between items-center px-6 py-4 border border-b border-gray-400'>
@@ -30,28 +79,28 @@ const Writers = () => {
                 
                     </thead>
                     <tbody className='text-gray-600'>
-                        {[1,2,3,4].map((item,index)=>(
+                        {writers.map((item,index)=>(
                             <tr key={index} className=''>
-                                <td className='py-4 px-6'>1</td>
-                                <td className='py-4 px-6'>Name</td>
-                                <td className='py-4 px-6'>Category Name</td>
-                                <td className='py-4 px-6'>Writer</td>
+                                <td className='py-4 px-6'>{index + 1}</td>
+                                <td className='py-4 px-6'>{item.name}</td>
+                                <td className='py-4 px-6'>{item.category}</td>
+                                <td className='py-4 px-6'>{item.role}</td>
                                 <td className='py-4 px-6'>
                                     <img className='w-10 h-10 rounded-full object-cover' src={profile} alt="news" />
                                 </td>
                                
-                                <td className='py-4 px-6'>test@gmail.com</td>
+                                <td className='py-4 px-6'>{item.email}</td>
                                 
                                 <td className='py-4 px-6'>
                                     <div className="flex gap-3 text-gray-500">
                 
-                                        <Link to='#' className='p-2 bg-yellow-500 text-white rounded hover:bg-blue-800'>
+                                        <Link to={`/dashboard/writer/edit/${item._id}`} className='p-2 bg-yellow-500 text-white rounded hover:bg-blue-800'>
                                             <FaEdit/>
                                         </Link>
                 
-                                        <Link to='#' className='p-2 bg-red-500 text-white rounded hover:bg-red-800'>
+                                        <button onClick={() => handleDeleteWriter(item._id)} className='p-2 bg-red-500 text-white rounded hover:bg-red-800'>
                                             <FaTrashAlt/>
-                                        </Link>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
