@@ -6,7 +6,6 @@ import adver_image from '../assets/add.png'
 import bg_header from '../assets/header-bg.jpg'
 import Image from 'next/image';
 import Header_Category from './Header_Category';
-import HeadLines from './HeadLines';
 
 const Header = () => {
     
@@ -66,7 +65,7 @@ const Header = () => {
             </div>
         
         <Header_Category/>
-        <HeadLines/>
+      
         
         </header>
     );
