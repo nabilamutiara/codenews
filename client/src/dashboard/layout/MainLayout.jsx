@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 
 const MainLayout = () => {
     return (
-        <div className='min-w-screen min-h-screen bg-slate-400'>
+        <div className='min-w-screen min-h-screen bg-white'>
             <Sidebar/>
             <div className= 'ml-[250px] w-[calc(100vw-268px)] min-h-[100vh]'>
                 <Header/>

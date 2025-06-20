@@ -9,11 +9,11 @@ const Adminindex = () => {
         <div className='mt-6'>
             <div className='grid grid-cols-5 md:grid-cols-5 lg-grid-cols-5 gap-6'>
                 {[
-                    {title: 'Total News', value: 50, color: 'text-red-500'},
-                    {title: 'Pending News', value: 55, color: 'text-purple-500'},
-                    {title: 'Active News', value: 50, color: 'text-cyan-500'},
-                    {title: 'Deactive News', value: 15, color: 'text-blue-500'},
-                    {title: 'Writers', value: 10, color: 'text-green-500'},
+                    {title: 'Total News', value: 50, color: 'text-gray-800'},
+                    {title: 'Pending News', value: 55, color: 'text-gray-800'},
+                    {title: 'Active News', value: 50, color: 'text-gray-800'},
+                    {title: 'Deactive News', value: 15, color: 'text-gray-800'},
+                    {title: 'Writers', value: 10, color: 'text-gray-800'},
                     
                 ].map((start, i)=>(
                     <div key={i} className='p-8 bg-white rounded-lg shadow-md flex flex-col items-center gap-2'>

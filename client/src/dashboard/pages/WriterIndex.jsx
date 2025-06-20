@@ -9,10 +9,10 @@ const WriterIndex = () => {
         <div className='mt-6'>
             <div className='grid grid-cols-1 md:grid-cols-4 lg-grid-cols-4 gap-6'>
                 {[
-                    {title: 'Writer Total News', value: 50, color: 'text-red-500'},
-                    {title: 'Writer Pending News', value: 55, color: 'text-purple-500'},
-                    {title: 'Writer Active News', value: 22, color: 'text-cyan-500'},
-                    {title: 'Writer Deactive News', value: 15, color: 'text-blue-500'},
+                    {title: 'Writer Total News', value: 50, color: 'text-gray-800'},
+                    {title: 'Writer Pending News', value: 55, color: 'text-gray-800'},
+                    {title: 'Writer Active News', value: 22, color: 'text-gray-800'},
+                    {title: 'Writer Deactive News', value: 15, color: 'text-gray-800'},
                     
                     
                 ].map((start, i)=>(

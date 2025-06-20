@@ -57,7 +57,7 @@ const Writers = () => {
 
     return (
         <div className='bg-white rounded-lg shadow-md'>
-            <div className='flex justify-between items-center px-6 py-4 border border-b border-gray-400'>
+            <div className='flex justify-between items-center px-6 py-4'>
                 <h2 className='text-xl font-semibold'>Writers</h2>
                 <Link to='/dashboard/writer/add' className='px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-800 transition duration-300'>
                     Add Writer
