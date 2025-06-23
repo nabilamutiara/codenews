@@ -145,7 +145,7 @@ class newsControllers {
             return res.status(201).json({message: 'News Updated Successfully', news});
     
         } catch (error) {
-            console.error("Update News Error:", error);
+            
             return res.status(500).json({message: 'Internal Server Error'});
         }
     }
@@ -197,6 +197,60 @@ class newsControllers {
         }
     }
     //End Method
+
+    get_all_news = async (req,res) => {
+        try {
+            const category_news = await newsModel.aggregate([
+                {
+                    $sort: {createdAt: -1}
+
+                },
+                {
+                    $match: {
+                        status: 'active'
+                    }
+                },
+                {
+                    $group: {
+                        _id: "$category", 
+                        news: {
+                            $push: {
+                                _id: '$_id', 
+                                title: '$title',
+                                slug: '$slug',
+                                writerName: '$writerName',
+                                image: '$image',
+                                description: '$description',
+                                date: '$date',
+                                title: '$title',
+                                category: '$category',
+
+                            }
+                        }
+                    }
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        category: '$_id',
+                        news: {
+                            $slice: ['$news', 5]
+                        }
+                    }
+                }
+            ])
+            const news = {}
+            for (let i=0; i < category_news.length; i++){
+                news[category_news[i].category] = category_news[i].news
+                console.log("Category news result:", category_news)
+
+            }
+            return res.status(200).json({news })
+        } catch (error) {
+            return res.status(500).json({message: 'Internal Server Error'})
+        }
+        
+    }
 
 }
 module.exports = new newsControllers()

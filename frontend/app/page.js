@@ -9,8 +9,19 @@ import DetailsNews from "@/components/news/DetailsNews";
 import DetailsNewsCol from "@/components/news/DetailsNewsCol";
 import NewsCard from "@/components/news/item/NewsCard";
 import Footer from '../components/Footer';
+import {base_api_url} from "@/config/config";
 
-export default function Home() {
+const Home = async() =>{
+  const news_data = await fetch(`${base_api_url}/api/all/news`,{
+    next: {
+      revalidate: 5,
+    }
+  });
+
+  let news = await news_data?.json()
+  console.log(news)
+  news = news.news
+
   return (
     <div>
     <main >
@@ -31,7 +42,11 @@ export default function Home() {
                 </div>
                 <div className='grid grid-cols-2 gap-[14px]'>
                   {
-                    [1,2,3,4].map((item, i)=><SimpleNewsCard item={item} key={i} />)
+                    news["Technology"].map((item, i) => {
+                      if (i < 4) {
+                        return <SimpleNewsCard item={item} key={i} />
+                      }
+                    })
                   }
                 </div>
               </div>
@@ -102,3 +117,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home;
