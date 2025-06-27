@@ -1,12 +1,15 @@
+'use client'
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-const Title = ({title}) => {
-    return (
-        <div className='text-xl font-bold text-[#333333] relative before:absolute before:w-[40px] before:bg=[#5271ff] before:h-full before:-left-0 pl-3'>
-            <span className='absolute inset-y-0 left-0 w-1 bg-blue-600 rounded-sm'></span>
-            {title}
-        </div>
-    );
+const Title = ({ title }) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className='text-xl font-bold text-[#333333] relative'>
+      {t(title)} 
+    </div>
+  );
 };
 
 export default Title;

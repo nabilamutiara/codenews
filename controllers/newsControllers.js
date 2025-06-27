@@ -252,5 +252,123 @@ class newsControllers {
         
     }
 
+    //End Method
+
+    get_categories = async (req, res) => {
+        try {
+            const categories = await newsModel.aggregate([
+                {
+                    $group: {
+                        _id : '$category',
+                        count: {$sum: 1}
+                    }
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        category: "$_id",
+                        count: 1
+                    }
+                }
+            ])
+            return res.status(200).json({categories})
+        } catch (error) {
+            return res.status(500).json({message: 'Internal Server Error'})
+        }
+    }
+
+     //End Method
+
+    get_details_news = async (req, res) => {
+        const {slug} = req.params;
+        try {
+            const news = await newsModel.findOneAndUpdate(
+                {slug}, 
+                {$inc: {count: 1}},
+                {new: true} 
+            );
+
+            if (!news) {
+                return res.status(404).json({message: 'News not found'});
+            }
+
+            const relatedNews = await newsModel.find({
+                $and: [
+                    {slug: {$ne: slug}},
+                    {category: {$eq: news.category}}
+                ]
+            })
+            .limit(4)
+            .sort({createdAt: -1}); 
+
+            return res.status(200).json({
+                news: news || {},
+                relatedNews: relatedNews || []
+            });
+        } catch (error) {
+            console.error("Error in get_details_news:", error);
+            return res.status(500).json({message: 'Internal Server Error'});
+        }
+    }
+
+    //End Method
+
+    get_category_news = async (req, res) => {
+        const {category} = req.params;
+        
+        try {
+            const news = await newsModel.find({ 
+                category: decodeURIComponent(category),
+                status: 'active'
+            }).sort({ createdAt: -1 });
+            
+            return res.status(200).json({ news });
+        } catch (error) {
+            console.error("Error in get_category_news:", error);
+            return res.status(500).json({ 
+                message: 'Internal Server Error',
+                error: error.message 
+            });
+        }
+    }
+    //End Method   
+
+    get_popular_news = async (req, res) => {
+        try {
+            const popularNews = await newsModel.find({ 
+                status: 'active',
+                count: { $gt: 0 } 
+            })
+            .sort({ count: -1 })
+            .limit(8)
+            .select('-__v') 
+            .lean();
+            
+            if (!popularNews || popularNews.length === 0) {
+                return res.status(404).json({ 
+                    message: 'No popular news found',
+                    suggestion: 'The count field might not have been incremented yet'
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+                count: popularNews.length,
+                data: popularNews
+            });
+
+        } catch (error) {
+            console.error('Error in get_popular_news:', error);
+            return res.status(500).json({
+                success: false,
+                message: 'Internal Server Error',
+                error: process.env.NODE_ENV === 'development' ? error.message : undefined
+            });
+        }
+    }
+    //End Method 
+
+
+
 }
 module.exports = new newsControllers()

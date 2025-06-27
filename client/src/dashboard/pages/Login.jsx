@@ -26,7 +26,7 @@ const Login = () => {
         try {
             const {data} = await axios.post(`${base_url}/api/login`, state)
             setLoader(false)
-            //console.log(data);
+            console.log(data)
             localStorage.setItem('newsToken',data.token)
             toast.success(data.message)
             dispatch({

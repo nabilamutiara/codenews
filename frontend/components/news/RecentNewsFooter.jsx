@@ -5,7 +5,7 @@ import Image from 'next/image';
 const RecentNewsFooter = () => {
     return (
         <div className='w-full flex flex-col gap-y-[14px]'>
-           <div className={`text-xl font-bold text-white relative before:absolute before:w-[4px] before:bg-[#5271ff] before:h-full before:-left-0 pl-3`}>
+           <div className={`text-xl font-bold text-black relative `}>
                     Recent News
             </div> 
             <div className='grid grid-cols-1 gap-y-2 pt-1'>
@@ -29,10 +29,10 @@ const RecentNewsFooter = () => {
                                 </div>
                                 <div className='w-[calc(100%-90px)] pl-2'>
                                     <div className='flex flex-col gap-y-1'>
-                                        <h2 className='text-sm font-semibold text-white hover:text-[#c80000]'>
+                                        <h2 className='text-sm font-semibold text-black hover:text-gray-500'>
                                             What puzzles reveal about
                                         </h2>
-                                        <div className='flex gap-x-2 text-xs font-normal text-white'>
+                                        <div className='flex gap-x-2 text-xs font-normal text-gray-500'>
                                             <span>20-09-2024</span>
                                             <span>By Nabila</span>
 

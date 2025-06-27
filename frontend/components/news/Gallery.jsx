@@ -4,7 +4,7 @@ import Image from 'next/image';
 const Gallery = () => {
     return (
         <div className='w-full flex flex-col gap-y-[14px]'>
-            <div className='text-xl font-bold text-white relative before:absolute before:w-[4px] before:bg-[#5271ff] before:h-full before:-left-0 pl-3'>
+            <div className='text-xl font-bold text-black '>
                 Gallery
             </div>
             <div className='grid grid-cols-3 gap-2'>
