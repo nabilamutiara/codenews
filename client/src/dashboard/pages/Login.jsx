@@ -43,11 +43,11 @@ const Login = () => {
     }
 
     return (
-        <div className='min-h-screen bg-slate-100 flex items-center justify-center'>
+        <div className='min-h-screen bg-sky-100 flex items-center justify-center'>
             <div className='bg-white shadow-lg rounded-lg w-[400px]'>
                 <div className='p-8'>
                     <div className='flex justify-center mb-8'>
-                        <img className='w-[150]' src="https://i.ibb.co.com/7JwVHXV9/mainlogo.png" alt="" />
+                        <img className="w-[200px]" src="http://res.cloudinary.com/dtby9tf0z/image/upload/v1751265488/news_images/ywhmk47hcef7ecscbbdz.png" alt="" />
                     </div>
                     <form  onSubmit={submit} className='space-y-6 '>
                         <div>
@@ -65,7 +65,7 @@ const Login = () => {
                         </div>
 
                         <div>
-                            <button type='submit' disabled={loader} className={`w-full py-3 text-white rounded-md transition font-semibold ${loader ? 'bg-blue-400 cursor-not-allowed' :'bg-blue-600 hover:bg-blue-400'}`}>
+                            <button type='submit' disabled={loader} className={`w-full py-3 text-white rounded-md transition font-semibold ${loader ? 'bg-blue-400 cursor-not-allowed' :'bg-sky-400 hover:bg-sky-500'}`}>
                                 {loader? 'Loading...' : 'Login'}
                             </button>
                         </div>

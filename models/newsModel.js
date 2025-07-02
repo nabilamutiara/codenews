@@ -42,6 +42,10 @@ const newsSchema = new Schema({
         type: Number,
         default: 0
     },
+    email: {
+        type: String,
+        required: true
+    },
     
 },{timestamps: true})
 module.exports = model('wnews', newsSchema)

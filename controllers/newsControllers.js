@@ -285,7 +285,7 @@ class newsControllers {
             const news = await newsModel.findOneAndUpdate(
                 {slug}, 
                 {$inc: {count: 1}},
-                {new: true} 
+                {new: true} // Untuk mengembalikan dokumen yang sudah diupdate
             );
 
             if (!news) {
@@ -299,7 +299,7 @@ class newsControllers {
                 ]
             })
             .limit(4)
-            .sort({createdAt: -1}); 
+            .sort({createdAt: -1}); // Diperbaiki dari createAt ke createdAt
 
             return res.status(200).json({
                 news: news || {},
@@ -335,40 +335,75 @@ class newsControllers {
 
     get_popular_news = async (req, res) => {
         try {
-            const popularNews = await newsModel.find({ 
-                status: 'active',
-                count: { $gt: 0 } 
-            })
-            .sort({ count: -1 })
-            .limit(8)
-            .select('-__v') 
-            .lean();
-            
-            if (!popularNews || popularNews.length === 0) {
-                return res.status(404).json({ 
-                    message: 'No popular news found',
-                    suggestion: 'The count field might not have been incremented yet'
-                });
-            }
-
-            return res.status(200).json({
-                success: true,
-                count: popularNews.length,
-                data: popularNews
-            });
-
+            const popularNews = await newsModel.find({status: 'active'}).sort({count: -1}).limit(8)
+            return res.status(200).json({popularNews})
         } catch (error) {
-            console.error('Error in get_popular_news:', error);
-            return res.status(500).json({
-                success: false,
-                message: 'Internal Server Error',
-                error: process.env.NODE_ENV === 'development' ? error.message : undefined
-            });
+            return res.status(500).json({message: 'Internal Server Error'});
         }
     }
     //End Method 
 
+    get_latest_news = async (req,res) => {
+        try {
+            const news = await newsModel.find({status: 'active'}).sort({createdAt: -1}).limit(5)
+            return res.status(200).json({news})
+        } catch (error) {
+            return res.status(500).json({message: 'Internal Server Error'});
+        }
+    }
+    //End Method 
 
+    get_recent_news = async (req,res) => {
+        try {
+            const news = await newsModel.find({status: 'active'}).sort({createdAt: -1}).skip(10).limit(5)
+            return res.status(200).json({news})
+        } catch (error) {
+            return res.status(500).json({message: 'Internal Server Error'});
+        }
+    }
+    //End Method 
 
+    get_images_news = async (req, res) => {
+        try {
+            const images = await newsModel.aggregate([
+                {
+                    $match: {
+                        status: 'active'
+                    }
+
+                }, {
+                    $sample: {
+                        size: 9
+                    }
+                },{
+                    $project: {
+                        image: 1
+                    }
+                }
+            ])
+            return res.status(200).json({images})
+        } catch (error) {
+            return res.status(500).json({message: 'Internal Server Error'})
+        }
+    }
+    //End Method 
+
+    news_search = async (req, res) => {
+        const {value} = req.query;
+        try {
+            if (!value) {
+                return res.status(400).json({message: 'Search value is required'})
+            }
+            const news = await newsModel.find({
+                status: 'active',
+                title: {$regex: value, $options: 'i'}
+            })
+            return res.status(200).json({news})
+        } catch (error) {
+            return res.status(500).json({message: 'Internal Server Error'})
+        }
+
+    }
+    //End Method 
 }
 module.exports = new newsControllers()

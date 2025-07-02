@@ -1,6 +1,8 @@
 const authModel = require('../models/authModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const {formidable} = require('formidable')
+const cloudinary = require('cloudinary').v2
 class authController {
     login = async(req,res) => {
         const {email, password} = req.body
@@ -145,6 +147,121 @@ class authController {
         }
     }
     //End Method
+
+    update_profile = async (req, res) => {
+    // Configure Cloudinary
+    cloudinary.config({
+        cloud_name: process.env.cloud_name,
+        api_key: process.env.api_key,
+        api_secret: process.env.api_secret,
+        secure: true
+    });
+
+    const form = formidable({
+        multiples: true,
+        maxFileSize: 5 * 1024 * 1024, // 5MB limit
+        keepExtensions: true,
+        allowEmptyFiles: false
+    });
+
+    form.parse(req, async (err, fields, files) => {
+        if (err) {
+            console.error('Formidable parsing error:', err);
+            return res.status(400).json({
+                message: 'Error parsing form data',
+                error: err.message
+            });
+        }
+
+        try {
+            // Validate required fields
+            const name = Array.isArray(fields.name) ? fields.name[0] : fields.name;
+            const email = Array.isArray(fields.email) ? fields.email[0] : fields.email;
+
+            if (!name || !email) {
+                return res.status(400).json({ 
+                    message: 'Name and email are required fields' 
+                });
+            }
+
+            // Trim and sanitize input
+            const updateData = {
+                name: name.toString().trim(),
+                email: email.toString().trim(),
+            };
+
+            // Handle image upload if present
+            const uploadedImage = Array.isArray(files.image) ? files.image[0] : files.image;
+
+            if (uploadedImage && uploadedImage.size > 0 && uploadedImage.filepath) {
+                try {
+                    const uploadResult = await cloudinary.uploader.upload(uploadedImage.filepath, {
+                        folder: 'user_profile_images',
+                        resource_type: 'auto',
+                        transformation: [
+                            { width: 500, height: 500, crop: 'limit' },
+                            { quality: 'auto' }
+                        ]
+                    });
+                    updateData.image = uploadResult.secure_url;
+                } catch (uploadError) {
+                    console.error('Cloudinary upload error:', uploadError);
+                    return res.status(500).json({
+                        message: 'Failed to upload image to Cloudinary',
+                        error: uploadError.message
+                    });
+                }
+            }
+
+            // Update user in database
+            const updatedUser = await authModel.findByIdAndUpdate(
+                req.params.id,
+                updateData,
+                { new: true, runValidators: true }
+            );
+
+            if (!updatedUser) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            return res.status(200).json({
+                message: 'Profile updated successfully',
+                user: {
+                    id: updatedUser._id,
+                    name: updatedUser.name,
+                    email: updatedUser.email,
+                    image: updatedUser.image
+                }
+            });
+
+        } catch (error) {
+            console.error('Profile update error:', error);
+            return res.status(500).json({
+                message: 'Internal server error',
+                error: error.message
+            });
+        }
+    });
+};
+    //End Method
+
+    get_profile = async (req, res) => {
+        try {
+            const userId = req.params.id;
+            if (!userId) {
+                return res.status(400).json({message: 'User Id is required'})
+            }
+            const user = await authModel.findById(userId)
+            return res.status(200).json({user})
+        } catch (error) {
+            return res.status(500).json({message: 'Internal Server Error'})
+        }
+    }
+
+    //End Method
+
+
+
 
     
 }

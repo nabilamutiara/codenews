@@ -21,17 +21,19 @@ const HeadLines = ({news}) => {
                 <Marquee className='flex items-center h-full'>
                 {
                     Object.keys(news).length > 0 &&
-                    Object.keys(news).map((c,i)=> <>
-                    {news[c].length > 0 && news[c].map((n, i) => (
-                        <Link
-                        key={i}
-                        href={`/news/${n.slug}`}
-                        className='px-4 text-sm font-medium text-[#1e293b] hover:text-black whitespace-nowrap'
-                        >
-                        {n.title}
-                        </Link>
-                    ))}
-                    </>)
+                    Object.keys(news).map((c) => (
+                        <div key={`category-${c}`}>
+                        {news[c].length > 0 && news[c].map((n) => (
+                            <Link
+                            key={`news-${n.slug}`}  // Using slug as unique identifier
+                            href={`/news/${n.slug}`}
+                            className='px-4 text-sm font-medium text-[#1e293b] hover:text-black whitespace-nowrap'
+                            >
+                            {n.title}
+                            </Link>
+                        ))}
+                        </div>
+                    ))
                 }
                 
                 </Marquee>

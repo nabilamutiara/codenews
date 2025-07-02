@@ -1,7 +1,16 @@
 import React from 'react';
 import Image from 'next/image';
+import {base_api_url} from '@/config/config';
 
-const Gallery = () => {
+const Gallery = async () => {
+    const res = await fetch(`${base_api_url}/api/images/news`,{
+        next: {
+            revalidate: 5
+        }
+    })
+   
+    const {images} = await res.json()
+
     return (
         <div className='w-full flex flex-col gap-y-[14px]'>
             <div className='text-xl font-bold text-black '>
@@ -9,12 +18,12 @@ const Gallery = () => {
             </div>
             <div className='grid grid-cols-3 gap-2'>
                 {
-                    [1,2,3,4,5,6].map((item,i)=>(
+                    images && images.length > 0 && images.map((item,i)=>(
                         <div key={i} className='w-full h-[85px] relative'>
                             <Image
                             className=''
                             layout='fill'
-                            src={'http://res.cloudinary.com/dtby9tf0z/image/upload/v1749088014/news_images/prqy4yatnm6sdzoihytl.jpg'}
+                            src={item.image}
                             alt='gallery image'
                             />
                         </div>
