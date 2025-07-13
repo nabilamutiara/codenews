@@ -41,6 +41,8 @@ const SimpleDetailsNewCard = ({news, type}) => {
                 </p>
                 }
             </div>
+            
+            
         </div>
     );
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-import profile from '../../assets/profile.png';
 import { Link} from 'react-router-dom';
 import { FaEye } from 'react-icons/fa';
 import { FaEdit } from 'react-icons/fa';
@@ -15,6 +14,7 @@ import { useEffect } from 'react';
 import {convert} from 'html-to-text'
 
 const NewsContent = () => {
+    const [predictions, setPredictions] = useState({})
     const {store} = useContext(storeContext)
     const [news,setNews] = useState([])
     const [all_news, set_all_news] = useState([])
@@ -36,6 +36,31 @@ const NewsContent = () => {
             console.log(error)
         }
     }
+
+    useEffect(() => {
+        const fetchPredictions = async () => {
+            const newPredictions = {};
+
+            for (let item of news) {
+                try {
+                    const { data } = await axios.post('http://localhost:5000/api/fakenews', {
+                        text: item.title + ' ' + convert(item.description || '', { wordwrap: false })
+                    });
+                    newPredictions[item._id] = data.label || "UNKNOWN"; // gunakan label dari response Flask
+                } catch (err) {
+                    console.error("Prediction error:", err.message);
+                    newPredictions[item._id] = "UNKNOWN";
+                }
+            }
+
+            setPredictions(newPredictions);
+        };
+
+        if (news.length > 0) {
+            fetchPredictions();
+        }
+    }, [news]);
+
 
     useEffect(()=>{
         get_news()
@@ -141,8 +166,11 @@ const NewsContent = () => {
             <th className='py-4 px-6 text-left'>Category</th>
             <th className='py-4 px-6 text-left'>Description</th>
             <th className='py-4 px-6 text-left'>Date</th>
+            <th className='py-4 px-6 text-left'>Komentar</th>
+            <th className='py-4 px-6 text-left'>Views</th>
             <th className='py-4 px-6 text-left'>Status</th>
             <th className='py-4 px-6 text-left'>Action</th>
+            
 
         </tr>
 
@@ -159,6 +187,13 @@ const NewsContent = () => {
                 <td className='py-4 px-6'>{n.description ? convert(n.description, {wordwrap: false}).slice(0, 50) + '...' : '-'}</td>
 
                 <td className='py-4 px-6'>{n.date}</td>
+                <td className='py-4 px-6'>
+                    {n.comments && n.comments.length > 0
+                        ? `${n.comments.length} komentar`
+                        : 'Tidak ada komentar'}
+                </td>
+
+                <td className='py-4 px-6'>{n.count}</td>
                 {
                     store?.userInfo?.role === 'admin' ? 
                     <td className='py-4 px-6'>
@@ -191,9 +226,7 @@ const NewsContent = () => {
                 
                 <td className='py-4 px-6'>
                     <div className="flex gap-3 text-gray-500">
-                        <Link to='#' className='p-2 bg-blue-500 text-white rounded hover:bg-blue-800'>
-                            <FaEye/>
-                        </Link>
+                        
                         {
                             store?.userInfo?.role === 'writer' && <>
                             <Link to={`/dashboard/news/edit/${n._id}`} className='p-2 bg-yellow-500 text-white rounded hover:bg-blue-800'>
@@ -208,6 +241,7 @@ const NewsContent = () => {
                         </button>
                     </div>
                 </td>
+                
             </tr>
         ))
 

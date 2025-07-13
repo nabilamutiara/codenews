@@ -37,14 +37,15 @@ const CategoryNews = async ({params}) => {
                     <div className='flex flex-wrap'>
                         <div className='w-full xl:w-8/12'>
                         <div className='w-full pr-0 xl:pr-4'>
-                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
-                        {
-                            news && news.length > 0 && news.map((item,i) => (
-                                <SimpleDetailsNewCard news={item} type="details_news" height={200} />
-                            ))
-                        }
+                            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
+                                {
+                                    news && news.length > 0 && news.map((item,i) => (
+                                        <SimpleDetailsNewCard news={item} type="details_news" height={200} />
+                                    ))
+                                }
+                                
 
-                        </div>
+                            </div>
                         </div> 
                         </div>
 

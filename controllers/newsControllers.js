@@ -4,6 +4,8 @@ const newsModel = require('../models/newsModel')
 const galleryModel = require('../models/galleryModel')
 const {mongo: {ObjectId}} = require('mongoose')
 const moment = require('moment')
+const authModel = require('../models/authModel')
+
 
 class newsControllers {
     add_news = async (req,res) => {
@@ -405,5 +407,84 @@ class newsControllers {
 
     }
     //End Method 
-}
+    news_statistics = async (req, res) => {
+        try {
+            const totalNews = await newsModel.countDocuments()
+            const pendingNews = await newsModel.countDocuments({ status: 'pending' })
+            const activeNews = await newsModel.countDocuments({ status: 'active' })
+            const deactiveNews = await newsModel.countDocuments({ status: 'deactive' })
+            const totalWriters = await authModel.countDocuments({ role: 'writer' })
+
+            return res.status(200).json({
+                totalNews,
+                pendingNews,
+                activeNews,
+                deactiveNews,
+                totalWriters
+            });
+
+                } catch (error) {
+                    return res.status(500).json({message: 'Internal server Error'})
+                }
+
+            }
+
+            //End Method
+       // Di newsControllers.js
+
+        add_comment = async (req, res) => {
+            try {
+                const { newsId, name, comment } = req.body;
+
+                if (!newsId || !name || !comment) {
+                    return res.status(400).json({ error: "All fields are required" });
+                }
+
+                const newComment = { name, comment };
+
+                const updatedNews = await newsModel.findByIdAndUpdate(
+                    newsId,
+                    { $push: { comments: newComment } },
+                    { new: true }
+                );
+
+                if (!updatedNews) {
+                    return res.status(404).json({ error: "News not found" });
+                }
+
+                const addedComment = updatedNews.comments?.[updatedNews.comments.length - 1] || newComment;
+                res.status(201).json(addedComment);
+            } catch (error) {
+                console.error("Error adding comment:", error);
+                res.status(500).json({ error: "Failed to add comment" });
+            }
+        };
+
+        get_comments = async (req, res) => {
+            try {
+                const { newsId } = req.params;
+
+                const mongoose = require('mongoose');
+                if (!newsId || !mongoose.Types.ObjectId.isValid(newsId)) {
+                    return res.status(400).json({ error: "Valid News ID is required" });
+                }
+
+                const news = await newsModel.findById(newsId);
+                if (!news) {
+                    return res.status(404).json({ error: "News not found" });
+                }
+
+                const sortedComments = news.comments.sort((a, b) => b.createdAt - a.createdAt);
+                res.status(200).json(sortedComments);
+            } catch (error) {
+                console.error("Error fetching comments:", error);
+                res.status(500).json({ error: "Failed to fetch comments" });
+            }
+        };
+
+        
+    }
+
+
+
 module.exports = new newsControllers()

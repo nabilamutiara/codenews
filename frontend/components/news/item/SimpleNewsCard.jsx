@@ -1,8 +1,7 @@
+'use client';
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-
-
 
 const SimpleNewsCard = ({item, type}) => {
     return (
@@ -22,8 +21,8 @@ const SimpleNewsCard = ({item, type}) => {
                 <div className='px-[6px] py-[2px] rounded-md text-[13px] bg-sky-400'>
                     {item.category}
                 </div>
-                <Link href={`/news/${item.slug}`} className='text-sm'>
-                {item.title}
+                <Link href={`/news/${item.slug}`} className='text-sm' onClick={() => console.log("broooooooo haahhaahhhahahahha")}>
+                    {item.title}
                 </Link>
                 <div className='flex gap-x-2 text-sm font-medium'>
                     <span>

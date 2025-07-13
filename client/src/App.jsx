@@ -15,6 +15,10 @@ import React, {useContext} from 'react';
 import storeContext from './context/storeContext';
 import EditWriter from './dashboard/pages/EditWriter';
 import EditNews from './dashboard/pages/EditNews';
+import Paraphraser from './dashboard/pages/Paraphraser';
+import Comment from './dashboard/components/Comment';
+import HoaxNews from './dashboard/components/HoaxNews';
+
 
 function App() {
 
@@ -32,6 +36,8 @@ function App() {
             <Route path="" index element={store.userInfo.role === 'admin' ? <Navigate to='/dashboard/admin'/> : <Navigate to='/dashboard/writer'/>} />
             <Route path="unable-access" element={<Unable />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="comment" element={<Comment />} />
+            <Route path="hoaxnews" element={<HoaxNews />} />
             <Route path="news" element={<News />} />
             <Route path='' element={<ProtectRole role='admin'/>}>
               <Route path="admin" element={<Adminindex />} />
@@ -43,6 +49,7 @@ function App() {
               <Route path="writer" element={<WriterIndex />} />
               <Route path="news/create" element={<CreateNews />} />
               <Route path="news/edit/:news_id" element={<EditNews />} />
+              <Route path="paraphraser" element={<Paraphraser />} />
               
             </Route>
           </Route>

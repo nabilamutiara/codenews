@@ -111,7 +111,7 @@ class authController {
         const writerId = req.params.id
 
         if (!name || !email || !category) {
-            return res.status(400).json({meesage: 'Please provide all field data'})
+            return res.status(400).json({message: 'Please provide all field data'})
         }
 
         try {
@@ -260,9 +260,34 @@ class authController {
 
     //End Method
 
+    changePassword = async (req,res) => {
 
+        try {
+            const {oldPassword,newPassword } = req.body;
+            const userId = req.userInfo.id;
+            
+            const user = await authModel.findById(userId).select('+password')
+            
+            const isMatch = await bcrypt.compare(oldPassword, user.password);
+            if (!isMatch) {
+                return res.status(400).json({ message: 'Old Password is incorrect'});
+            }
 
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(newPassword,salt)
 
+            user.password = hashedPassword;
+            await user.save();
+
+            return res.status(200).json({message: 'Password Updated Successfully'})        
+
+        } catch (error) {
+            return res.status(500).json({ message: 'Internal Server Error' })
+        }
+
+    }
+    //End Method
     
+
 }
 module.exports = new authController

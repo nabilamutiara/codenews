@@ -23,24 +23,38 @@ const Login = () => {
 
     const submit = async(e) => {
         e.preventDefault()
+        setLoader(true);
         try {
-            const {data} = await axios.post(`${base_url}/api/login`, state)
+            const { data } = await axios.post(`${base_url}/api/login`, state)
             setLoader(false)
             console.log(data)
-            localStorage.setItem('newsToken',data.token)
+
+            localStorage.setItem('newsToken', data.token)
             toast.success(data.message)
+
             dispatch({
                 type: "login_success",
                 payload: {
                     token: data.token
                 }
             })
-            navigate('/dashboard')
+
+            // Arahkan berdasarkan role user
+            const role = data.user?.role; // pastikan backend mengirimkan ini
+            if (role === 'admin') {
+                navigate('/dashboard/admin');
+            } else if (role === 'writer') {
+                navigate('/dashboard/writer');
+            } else {
+                navigate('/dashboard'); // fallback jika role tidak dikenali
+            }
+
         } catch (error) {
             setLoader(false)
-            toast.error(error.response.data.message)
+            toast.error(error.response?.data?.message || "Login failed")
         }
     }
+
 
     return (
         <div className='min-h-screen bg-sky-100 flex items-center justify-center'>

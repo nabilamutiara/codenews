@@ -26,6 +26,7 @@ const authSchema = new Schema({
         type: String,
         default: true
     },
+    
 
 },{timestamps: true})
 module.exports = model('authors', authSchema)

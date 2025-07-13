@@ -44,8 +44,15 @@ const newsSchema = new Schema({
     },
     email: {
         type: String,
-        required: true
+        
     },
+    comments: [
+    {
+        name: String,
+        comment: String,
+        createdAt: { type: Date, default: Date.now }
+    }
+]
     
 },{timestamps: true})
 module.exports = model('wnews', newsSchema)

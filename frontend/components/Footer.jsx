@@ -47,12 +47,8 @@ const Footer = () => {
               
                 <div className="text-center md:text-left">
                 <span>© 2025</span>
-                <Link href="#" className="hover:underline">PT Winnicode Garuda Teknologi</Link>
+                <Link href="#" className="hover:underline">Nabila Mutiara Susetio</Link>
                 </div>
-
-               
-                
-
               
                 <div className="flex gap-x-2 justify-center md:justify-end">
                ` <a href="#" className="w-[37px] h-[35px] text-white flex justify-center items-center bg-sky-500">
