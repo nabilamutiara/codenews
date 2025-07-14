@@ -103,10 +103,10 @@ const Comment = () => {
   const total = sentimentSummary.POSITIVE + sentimentSummary.NEGATIVE + sentimentSummary.NEUTRAL;
 
   const barData = {
-  labels: ['Positif', 'Negatif', 'Netral'],
+  labels: ['Positive', 'Negative', 'Neutral'],
   datasets: [
     {
-      label: 'Jumlah Komentar',
+      label: 'Number of Comments',
       data: [
         sentimentSummary.POSITIVE,
         sentimentSummary.NEGATIVE,
@@ -119,7 +119,7 @@ const Comment = () => {
 };
 
 const pieData = {
-  labels: ['Positif', 'Negatif', 'Netral'],
+  labels: ['Positive', 'Negative', 'Neutral'],
   datasets: [
     {
       data: [
@@ -176,7 +176,7 @@ const options = {
               <th className='py-4 px-6 text-left'>No</th>
               <th className='py-4 px-6 text-left'>Title</th>
               <th className='py-4 px-6 text-left'>Category</th>
-              <th className='py-4 px-6 text-left'>Komentar</th>
+              <th className='py-4 px-6 text-left'>Comment</th>
             </tr>
           </thead>
           <tbody className='text-gray-600'>

@@ -18,6 +18,8 @@ import EditNews from './dashboard/pages/EditNews';
 import Paraphraser from './dashboard/pages/Paraphraser';
 import Comment from './dashboard/components/Comment';
 import HoaxNews from './dashboard/components/HoaxNews';
+import VideoUpload from './dashboard/pages/VideoUpload';
+
 
 
 function App() {
@@ -48,6 +50,8 @@ function App() {
             <Route path='' element={<ProtectRole role='writer'/>}>
               <Route path="writer" element={<WriterIndex />} />
               <Route path="news/create" element={<CreateNews />} />
+              <Route path="video/upload" element={<VideoUpload />} />
+              
               <Route path="news/edit/:news_id" element={<EditNews />} />
               <Route path="paraphraser" element={<Paraphraser />} />
               

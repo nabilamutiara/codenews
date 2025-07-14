@@ -9,11 +9,6 @@ import Header from '@/components/Header';
 import SearchNews from './../../../components/news/SearchNews';
  
 const page =  () => {
-
-
-
-
-
     return (
         <div className="max-w-[2000px] mx-auto">
             <div className="fixed top-0 left-0 w-full z-50 bg-white shadow">

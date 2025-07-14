@@ -16,18 +16,7 @@ const Header = () => {
         <header className='bg-white text-[#cccccc]'>
             <div className='px-5 lg:px-8 flex justify-between items-center py-2 '>
                 <span className='text-sm font-sm'>{moment().format('DD/MM/YYYY HH:mm')}</span>
-                <div className='flex space-x-2'>
-                  
-                    <a href="#" className="w-[25px] h-[25px] text-white flex justify-center items-center bg-sky-500">
-                        <FaFacebookF />
-                    </a>
-                    <a href="#" className="w-[25px] h-[25px] text-white flex justify-center items-center bg-sky-500">
-                        <FaTwitter />
-                    </a>
-                    <a href="#" className="w-[25px] h-[25px] text-white flex justify-center items-center bg-sky-500">
-                        <FaYoutube />
-                    </a>`
-                    </div>
+               
             </div>
 
             <div>

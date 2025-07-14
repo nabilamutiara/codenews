@@ -108,7 +108,7 @@ const Details = ({params}) => {
                                         </div>
                                         
                                         <div className="bg-white p-6 rounded-xl shadow-md">
-                                            <h2 className="text-xl font-semibold mb-4 text-sky-400">Komentar ({comments.length})</h2>
+                                            <h2 className="text-xl font-semibold mb-4 text-sky-400">Comments({comments.length})</h2>
 
                                             <form onSubmit={handleSubmitComment} className="mb-4">
                                                 <input
@@ -116,7 +116,7 @@ const Details = ({params}) => {
                                                     value={name}
                                                     onChange={(e) => setName(e.target.value)}
                                                     className="w-full p-2 mb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-400"
-                                                    placeholder="Nama Anda"
+                                                    placeholder="Your Name"
                                                     required
                                                 />
                                                 <textarea
@@ -124,14 +124,14 @@ const Details = ({params}) => {
                                                     onChange={(e) => setNewComment(e.target.value)}
                                                     className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-400"
                                                     rows="3"
-                                                    placeholder="Tulis komentarmu di sini..."
+                                                    placeholder="Write your comment here..."
                                                     required
                                                 ></textarea>
                                                 <button
                                                     type="submit"
                                                     className="mt-2 bg-sky-400 text-white px-4 py-2 rounded-md hover:bg-sky-500 transition"
                                                 >
-                                                    Kirim
+                                                    Submit
                                                 </button>
                                             </form>
 
@@ -158,9 +158,7 @@ const Details = ({params}) => {
                                 <div className='flex flex-col gap-y-8'>
                                     <Search/>
                                     <RecentNews/>
-                                    <div className='p-4 bg-white'>
-                                        <Category titleStyle={"text-gray-700 font-bold"}/>
-                                    </div>
+                                    
                                 </div>
                             </div>  
                         </div>

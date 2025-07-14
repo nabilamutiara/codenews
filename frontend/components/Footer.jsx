@@ -30,14 +30,12 @@ const Footer = () => {
                             alt='logo'
                             />
                             <h2 className='text-gray-500 text-justify'>
-                                The city of Luang Prabang is Laos' spiritual heartland, renowned for its rich Buddhist heritage, ornate temples and a significant population of saffron-robed monks. In fact, the 50,000-person spiritual hub is said by many to have the highest population of monks per capita anywhere in the world
+                                A news portal is a digital platform that delivers real-time news, articles, and multimedia content to the general public, covering diverse topics such as business, technology, health, and sports. Designed for accessibility across devices, it features breaking news updates, interactive media, user-friendly navigation, and social sharing capabilities while promoting credible journalism and public discourse to combat misinformation and keep society informed.
                             </h2>
                         </div>
                     </div>
                     <Gallery/>
-                    <div>
-                        <Category titleStyle='text-black'/>
-                    </div>
+                    
                     <RecentNewsFooter/>
                 </div>
             </div>
@@ -50,17 +48,7 @@ const Footer = () => {
                 <Link href="#" className="hover:underline">Nabila Mutiara Susetio</Link>
                 </div>
               
-                <div className="flex gap-x-2 justify-center md:justify-end">
-               ` <a href="#" className="w-[37px] h-[35px] text-white flex justify-center items-center bg-sky-500">
-                    <FaFacebookF />
-                </a>
-                <a href="#" className="w-[37px] h-[35px] text-white flex justify-center items-center bg-sky-500">
-                    <FaTwitter />
-                </a>
-                <a href="#" className="w-[37px] h-[35px] text-white flex justify-center items-center bg-sky-500">
-                    <FaYoutube />
-                </a>`
-                </div>
+                
 
             </div>
             </div>

@@ -45,7 +45,7 @@ const LatestNews = () => {
     const ButtonGroup = ({next, previous}) => {
         return (
             <div className='flex justify-between items-center py-2'>
-                <Title title="Berita Terbaru"/>
+                <Title title="Latest News"/>
                 <div className='flex items-center space-x-2'>
                     <button onClick={()=>previous()} className='w-9 h-9 flex items-center justify-center rounded-full bg-white text-gray-600 hover:bg-gray-200 hover:text-gray-800 shadow-transition'>
                         <FiChevronLeft size={20}/>

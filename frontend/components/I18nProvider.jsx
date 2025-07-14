@@ -5,7 +5,7 @@ import i18n from '../i18n';
 
 const I18nProvider = ({ children }) => {
   useEffect(() => {
-    i18n.changeLanguage('id'); 
+    i18n.changeLanguage('en'); 
   }, []);
 
   return children;

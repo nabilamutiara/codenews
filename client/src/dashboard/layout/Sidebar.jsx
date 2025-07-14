@@ -69,11 +69,14 @@ const Sidebar = () => {
                     </li>
 
                     <li>
-                        <Link to='/' className={`px-3 ${pathname === '/' ? 'bg-sky-400 text-white' : 'bg-white text-[#404040f6]'} py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-lg flex gap-x-2 justify-start items-center hover:bg-sky-600 hover:text-white`}>
-                            <span className='text-[18px]'><IoMdVideocam /></span>
-                            <span className='text-[18px]'>Add Video News</span>
+                        <Link to='/dashboard/video/upload' className={`px-3 ${pathname === '/dashboard/video/upload' ? 'bg-sky-400 text-white' : 'bg-white text-[#404040f6]'} py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-lg flex gap-x-2 justify-start items-center hover:bg-sky-600 hover:text-white`}>
+                            <span className='text-[18px]'><IoMdAdd/></span>
+                            <span className='text-[18px]'>Upload Video</span>
                         </Link>
                     </li>
+
+                  
+                    
 
                      <li>
                         <Link to='/dashboard/paraphraser' className={`px-3 ${pathname === '/dashboard/paraphraser' ? 'bg-sky-400 text-white' : 'bg-white text-[#404040f6]'} py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-lg flex gap-x-2 justify-start items-center hover:bg-sky-600 hover:text-white`}>

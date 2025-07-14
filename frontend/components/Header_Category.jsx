@@ -7,9 +7,18 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { FaSearch } from "react-icons/fa"; 
 import { base_api_url } from '@/config/config';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/navigation';
+
 
 
 const Header_Category = () => {
+    const [state, setState] = useState('')
+        const router = useRouter()
+        const search = (e) => {
+            e.preventDefault()
+            router.push(`/search/news?value=${state}`)
+            setState('')
+        }
     const { t } = useTranslation();
 
     const [categories, set_categories] = useState([])
@@ -44,11 +53,12 @@ const Header_Category = () => {
                     </div>
 
                     <div className='flex-wrap hidden lg:flex'>
-                        <Link className={`px-6 font-medium py-[13px] ${path === '/' ? 'bg-sky-100' : ''} `} href={'/'} > Beranda </Link>
+                        <Link className={`px-6 font-medium py-[13px] ${path === '/' ? '' : ''} `} href={'/'} > Beranda </Link>
 
                         {
                             categories.length > 0 && categories.map((c,i) => <Link key={i} className={`px-6 font-medium py-[13px] ${path === c.category ? 'bg-sky-100' : ''} `} href={`/news/category/${c.category}`} > {t(c.category)} </Link>)
                         } 
+                        
                     </div>
 
                     <div className='h-full w-[50px]'>
@@ -60,11 +70,11 @@ const Header_Category = () => {
 
                         <div className={`absolute lg:block transition-all  z-20 shadow-lg lg:right-10 top-[50px] w-full lg:w-[300px] right-0 ${show ? 'visible' : 'invisible'} `}>
                             <div className='p-3 bg-white'>
-                                <form className='flex'>
+                                <form onSubmit={search} className='flex'>
                                     <div className='w-[calc(100%-45px)] h-[40px]'>
-                                        <input type="text" placeholder='Seach' className='h-full w-full p-2 border border-slate-300 outline-none bg-slate-100' />  
+                                        <input type='text' required value={state} onChange={(e)=> setState(e.target.value)} className='w-full h-full p-2 outline-none bg-sky-50'/>
                                     </div>
-                                    <button className='w-[45px] hover:bg-blue-700 cursor-pointer h-[40px] flex justify-center outline-none items-center bg-blue-600 text-white text-xl'>
+                                    <button className='w-[45px] hover:bg-sky-500 cursor-pointer h-[40px] flex justify-center outline-none items-center bg-sky-400 text-white text-xl'>
                                         <FaSearch />
                                     </button>
                                 </form>

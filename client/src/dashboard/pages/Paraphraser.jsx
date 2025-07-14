@@ -94,7 +94,7 @@ function Paraphraser() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyPress}
               rows={1}
-              placeholder="Ketik pesan di sini..."
+              placeholder="Write your message here...."
               className="flex-1 resize-none p-3 rounded-lg bg-gray-50 text-black border border-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-transparent"
             />
             <button

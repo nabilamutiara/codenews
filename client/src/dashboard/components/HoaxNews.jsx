@@ -230,11 +230,11 @@ const HoaxNews = () => {
             {/* Fake/Real News Charts Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="bg-white p-6 rounded-lg shadow">
-                    <h3 className="text-lg font-semibold mb-4">Distribusi Fake/Real News (Jumlah)</h3>
+                    <h3 className="text-lg font-semibold mb-4">Fake/Real News Distribution (Count)</h3>
                     <Bar data={barDataNews} options={options} />
                 </div>
                 <div className="bg-white p-6 rounded-lg shadow">
-                    <h3 className="text-lg font-semibold mb-4">Distribusi Fake/Real News (Persentase)</h3>
+                    <h3 className="text-lg font-semibold mb-4">Fake/Real News Distribution (Percentage)</h3>
                     <div className="w-80 h-80 mx-auto">
                         <Pie data={pieDataNews} options={options} />
                     </div>
@@ -244,17 +244,16 @@ const HoaxNews = () => {
             {/* Clickbait/Normal News Charts Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="bg-white p-6 rounded-lg shadow">
-                    <h3 className="text-lg font-semibold mb-4">Distribusi Clickbait/Normal (Jumlah)</h3>
+                    <h3 className="text-lg font-semibold mb-4">Clickbait/Normal Distribution (Count)</h3>
                     <Bar data={barDataClickbait} options={options} />
                 </div>
                 <div className="bg-white p-6 rounded-lg shadow">
-                    <h3 className="text-lg font-semibold mb-4">Distribusi Clickbait/Normal (Persentase)</h3>
+                    <h3 className="text-lg font-semibold mb-4">Clickbait/Normal Distribution (Percentage)</h3>
                     <div className="w-80 h-80 mx-auto">
                         <Pie data={pieDataClickbait} options={options} />
                     </div>
                 </div>
             </div>
-
             <div className='overflow-x auto'>
                 <table className='w-full table-auto bg-white shadow-lg rounded-lg overflow-hidden'>
                     <thead className='bg-gray-100 text-gray-700 uppercase text-sm'>

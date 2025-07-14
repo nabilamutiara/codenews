@@ -12,6 +12,7 @@ import Footer from '../components/Footer';
 import { base_api_url } from "@/config/config";
 import Header from '@/components/Header';
 import RecentNews from "@/components/news/RecentNews";
+import Video from "@/components/news/item/Video";
 
 const Home = async () => {
   const news_data = await fetch(`${base_api_url}/api/all/news`, {
@@ -20,6 +21,12 @@ const Home = async () => {
 
   let news = await news_data?.json();
   news = news.news;
+
+  const videos_data = await fetch(`${base_api_url}/api/videos`, {
+    next: { revalidate: 5 },
+  });
+  let videos = await videos_data?.json();
+  videos = videos.videos;
 
   return (
     <div className="bg-white text-[#212529]">
@@ -32,17 +39,18 @@ const Home = async () => {
         <div className="h-[200px]"></div>
 
         <div className="max-w-screen-xl mx-auto px-4 md:px-6 lg:px-8">
-          {/* Section: Latest News */}
+          
           <section className="mb-12 bg-white p-6 rounded-lg shadow-sm">
             <div className="flex flex-col gap-6">
               <LatestNews />
             </div>
           </section>
+          
 
           {/* Section: Teknologi */}
           <section className="mb-12 bg-gray-50 p-6 rounded-lg shadow-sm">
             <div className="flex flex-col gap-6">
-              <Title title="Teknologi" />
+              <Title title="Technology" />
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {news["Technology"]?.slice(0, 4).map((item, i) => (
                   <SimpleNewsCard item={item} key={i} />
@@ -57,8 +65,14 @@ const Home = async () => {
           </section>
         </div>
 
+
+
+       
+
+        
+
         {/* ✅ Full Width Section: Bisnis */}
-        <section className="w-full bg-sky-900 py-12">
+        <section className="w-full bg-black py-12">
           <div className="max-w-screen-xl mx-auto px-4 md:px-6 lg:px-8">
             <div className="flex flex-col gap-6">
               
@@ -82,6 +96,7 @@ const Home = async () => {
               <DetailsNewsCol category="Education" news={news["Education"]} />
             </div>
           </section>
+        
 
           {/* Section 2: International, Travel, Business */}
           <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12 border-t pt-8">
@@ -94,9 +109,9 @@ const Home = async () => {
             </div>
           </section>
         </div>
-
+       
         {/* ✅ Full Width Section: Internasional */}
-        <section className="w-full bg-sky-900 py-12">
+        <section className="w-full bg-black py-12">
           <div className="max-w-screen-xl mx-auto px-4 md:px-6 lg:px-8">
             <div className="flex flex-col gap-6">
               
@@ -120,6 +135,46 @@ const Home = async () => {
             </div>
           </section>
         </div>
+
+
+        {/* ✅ Full Width Section: Internasional */}
+        <section className="w-full bg-black py-12">
+          <div className="max-w-screen-xl mx-auto px-4 md:px-6 lg:px-8">
+            <div className="flex flex-col gap-6">
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {news["Travel"]?.slice(0, 3).map((item, i) => (
+                  <SimpleNewsCard item={item} key={i} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="w-full py-12">
+          <div className="container mx-auto px-4 md:px-6 lg:px-8">
+            <div className="flex flex-col items-center gap-8">
+              <div className="w-full max-w-6xl">
+                <div className="flex flex-col items-center gap-8"> {/* Ubah ke flex-col untuk tata letak vertikal */}
+                  {videos
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Urutkan dari terbaru
+                    .slice(0, 5) // Ambil 5 video terbaru
+                    .map((video) => (
+                      <div key={video._id} className="w-full">
+                        <Video 
+                          item={video} 
+                          className="w-full"
+                          type="latest"
+                        />
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        
       </main>
     </div>
   );
