@@ -62,7 +62,7 @@ const HoaxNews = () => {
 
             for (let item of news) {
                 try {
-                    const { data } = await axios.post('http://localhost:5000/api/fakenews', {
+                    const { data } = await axios.post(`${base_url}/api/fakenews`, {
                         text: item.title + ' ' + convert(item.description || '', { wordwrap: false })
                     });
                     const prediction = data.label || "UNKNOWN";
@@ -91,7 +91,7 @@ const HoaxNews = () => {
 
             for (let item of news) {
                 try {
-                    const { data } = await axios.post('http://localhost:5000/api/clickbait', {
+                    const { data } = await axios.post(`${base_url}/api/clickbait`, {
                         text: item.title
                     });
                     const prediction = data.label || "UNKNOWN";

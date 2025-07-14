@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: frontend-next
+    env: node
+    buildCommand: cd frontend && npm install && npm run build
+    startCommand: cd frontend && npm start
+    port: 3000
+
+  - type: web
+    name: frontend-vite
+    env: node
+    buildCommand: cd client && npm install && npm run build
+    startCommand: cd client && npm run preview
+    port: 5173
+
+  - type: web
+    name: backend-node
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    port: 5000
+
+  - type: web
+    name: backend-flask
+    env: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: python backend/sentiment_api.py
+    port: 5001

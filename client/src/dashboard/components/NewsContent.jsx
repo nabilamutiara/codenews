@@ -43,7 +43,7 @@ const NewsContent = () => {
 
             for (let item of news) {
                 try {
-                    const { data } = await axios.post('http://localhost:5000/api/fakenews', {
+                    const { data } = await axios.post(`${base_url}/api/fakenews`, {
                         text: item.title + ' ' + convert(item.description || '', { wordwrap: false })
                     });
                     newPredictions[item._id] = data.label || "UNKNOWN"; // gunakan label dari response Flask
