@@ -54,12 +54,12 @@ const SimpleVideoCard = ({ item, type }) => {
 
             {/* Video Info */}
             <div className='p-4 text-black'>
-                <Link 
-                    href={`/videos/${item._id}`} 
-                    className='text-lg font-medium mb-2 line-clamp-2 hover:text-blue-600'
+                <div 
+                    
+                    className='text-lg font-medium mb-2 line-clamp-2 hover:bg-sky-400'
                 >
                     {item.title || 'Untitled Video'}
-                </Link>
+                </div>
                 
                 <div className='text-sm text-gray-600 mb-2'>
                     {item.createdAt ? new Date(item.createdAt).toLocaleDateString('en-US', {

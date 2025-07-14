@@ -13,7 +13,7 @@ const NewsCard = ({item}) => {
                     src={item?.image} alt='Image'
                     
                     />
-                    <div className='absolute inset-0 bg-black bg-opacity-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md '>
+                    <div className='absolute inset-0  rounded-md '>
 
                     </div>
 

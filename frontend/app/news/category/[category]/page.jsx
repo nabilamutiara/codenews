@@ -54,9 +54,7 @@ const CategoryNews = async ({params}) => {
                         <div className='flex flex-col gap-y-8'>
                             <Search/>
                             <RecentNews/>
-                    <div className='p-4 bg-white'>
-                        <Category titleStyle={"text-gray-700 font-bold"} /> 
-                        </div> 
+                    
                     </div> 
                     </div> 
                     </div> 
