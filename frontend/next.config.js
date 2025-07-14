@@ -22,9 +22,7 @@ const nextConfig = {
       },
     ];
   },
-  experimental: {
-    missingSuspenseWithCSRBailout: false,
-  },
+  
   // Jika ingin static export (opsional)
   // output: 'export',
 };

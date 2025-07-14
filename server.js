@@ -1,30 +1,43 @@
 const express = require('express')
-const app = express()
-const dotenv = require('dotenv')
-const cors = require('cors')
-const body_parser = require('body-parser')
-const db_connect = require('./utils/db')
-dotenv.config()
+const path = require('path');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const body_parser = require('body-parser');
+const db_connect = require('./utils/db');
 
-app.use(body_parser.json())
+dotenv.config();
+const app = express();
+
+app.use(body_parser.json());
 
 if (process.env.mode === 'production') {
-    app.use(cors())
+    app.use(cors());
 } else {
     app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
+        origin: ['http://localhost:5173', 'http://localhost:3000'],
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true
+    }));
 }
 
-const port = process.env.port
+// Routes
+app.use('/', require('./routes/authRoutes'));
+app.use('/', require('./routes/newsRoutes'));
+app.use('/', require('./routes/videoRoutes'));
 
-app.use('/',require('./routes/authRoutes'))
-app.use('/',require('./routes/newsRoutes'))
-app.use('/',require('./routes/videoRoutes'));
+// API Test
+app.get('/api', (req, res) => res.send("Hello from Easy API"));
 
-app.get('/', (req,res) => res.send("Hello Easy"))
-db_connect()
-app.listen(port, () => console.log(`Server is running on port ${port}`))
+// Serve static files from Vite build
+app.use(express.static(path.join(__dirname, 'client', 'dist')));
+
+// For SPA routing
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
+
+// Start the server
+const port = process.env.port || 3000;
+db_connect();
+app.listen(port, () => console.log(`Server is running on port ${port}`));
